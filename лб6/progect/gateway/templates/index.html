@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Gateway</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            margin: 20px; 
+        }
+        form { 
+            margin-bottom: 20px; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+        }
+        input { 
+            margin: 5px; 
+        }
+        .message { 
+            color: green; 
+        }
+        .error { 
+            color: red; 
+        }
+        table { 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #ccc; 
+            padding: 5px 10px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Управление валютами</h1>
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/load" method="post">
+        <h3>Добавить валюту</h3>
+        <input type="text" name="currency_name" placeholder="Название (USD)" required>
+        <input type="number" step="any" name="rate" placeholder="Курс к рублю" required>
+        <button type="submit">Загрузить</button>
+    </form>
+
+    <form action="/update" method="post">
+        <h3>Обновить курс</h3>
+        <input type="text" name="currency_name" placeholder="Название (USD)" required>
+        <input type="number" step="any" name="rate" placeholder="Новый курс" required>
+        <button type="submit">Обновить</button>
+    </form>
+
+    <form action="/delete" method="post">
+        <h3>Удалить валюту</h3>
+        <input type="text" name="currency_name" placeholder="Название (USD)" required>
+        <button type="submit">Удалить</button>
+    </form>
+
+    <form action="/convert" method="get">
+        <h3>Конвертация в рубли</h3>
+        <input type="text" name="currency_name" placeholder="USD" required>
+        <input type="number" step="any" name="amount" placeholder="Сумма" required>
+        <button type="submit">Конвертировать</button>
+    </form>
+
+
+    <form action="/currencies" method="get">
+        <h3>Список валют</h3>
+        <button type="submit">Показать все валюты</button>
+    </form>
+
+    {% if currencies %}
+    <table>
+        <tr><th>ID</th><th>Валюта</th><th>Курс (RUB)</th></tr>
+        {% for c in currencies %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.currency_name }}</td>
+            <td>{{ c.rate }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>

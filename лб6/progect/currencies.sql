@@ -1,0 +1,5 @@
+CREATE TABLE currencies (
+	id INTEGER PRIMARY KEY,
+	currency_name VARCHAR(50) NOT NULL UNIQUE,
+	rate NUMERIC(10, 4) NOT NULL
+);
